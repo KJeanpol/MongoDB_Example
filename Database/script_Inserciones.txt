@@ -1,0 +1,10 @@
+var myobj = [
+    { name: 'John', fname: 'Tyson', sname: 'Tyson', email:'nba@gmail.com',phone_number:[11111,22222]},
+    { name: 'Carlos', fname: 'Santan, sname:'Cruz', email:'futbol@gmail.com',phone_number:[33333,44444]},
+    { name: 'Oliver', fname: 'Atom,sname: 'Tsubasa', email:'niupi@gmail.com',phone_number:[55555,66666]}
+  ];
+
+db.personas.insertMany( myobj) 
+
+
+db.personas.insert({name: 'Carlos', fname: 'Santan, sname:'Cruz', email:'futbol@gmail.com',phone_number:['77777','88888']})

@@ -1,90 +1,44 @@
-'use strict'
-const express = require('express')
-const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-const Estilo = require('./models/estilo')
-const Marca= require ('./models/marca')
 
-/*CONEXION A LA BASE DE DATOS DE MONGO*/
-const app = express()
-const port = process.env.PORT || 3000
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-
-var db = 'mongodb://localhost:27017/RentCar';
-
-mongoose.connect(db, { useNewUrlParser: true }, (err, res) => {
-    if (err) {
-        return console.log('Error al conectar a la base de datos')
-    }
-    console.log('Succesful Connection...')
-
-    app.listen(port, () => {
-        console.log('Api REST running at http://localhost:3000')
-    })
-
-})
-
-
-// CONSULTAS REST GET
-
-
-app.get('/hola', (req, res) => {
-    res.send({ message: 'Hola Mundo' })
-})
-
-app.get('/api/estilo/:estiloId', (req, res) => {
-    let estiloId = req.params.estiloId
-    Estilo.findById(estiloId, (err, estilo) => {
-        if (err) { return res.status(500).send({ message: 'ERROR AL READ' }) }
-        if (!estilo) { return res.status(404).send({ message: 'No existe' }) }
-        res.status(200).send({ estilo })
-
-    })
-})
-
-app.get('/api/estilo', (req, res) => {
-    Estilo.find({}, (err, estilo) => {
-        if (err) { return res.status(500).send({ message: 'ERROR AL READ' }) }
-        if (!estilo) { return res.status(404).send({ message: 'No existe' }) }
-        res.status(200).send({ estilo })
-    })
-
-})
+// Import express
+let express = require('express');
+// Import Body parser
+let bodyParser = require('body-parser'),
+                 cors = require('cors');
+// Import Mongoose
+let mongoose = require('mongoose');
+// Initialize the app
+let app = express();
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit:50000 }));
+app.disable('etag'); // Avoid 304 requests
+app.use(cors()); // Enable request from any server -> npm install cors
+app.options('*', cors()) // include before other routes
+// Import routes
+let apiRoutes = require("./api-routes")
+// Configure bodyparser to handle post requests
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+// Connect to Mongoose and set connection variable
+const uri = 'mongodb://localhost:27017/RentCar';
+mongoose.connect(uri,{useNewUrlParser: true});//ANTES DE CONECTAR RECORDAR AGREGAR IP A IPWHITELIST EN ATLAS
+mongoose.set('useCreateIndex', true);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+    console.log("Connected to Local-MongoServe");
+  // we're connected!
+});
+// Setup server port
+var port = process.env.PORT || 3000;
+// Send message for default URL
+app.get('/', (req, res) => res.send('Welcome to MongoDB micro-Service'));
+// Use Api routes in the App
+app.use('/api', apiRoutes)
+// Launch app to listen to specified port
+app.listen(port, function () {
+    console.log("Running RestApi on port " + port);
+});
 
 
-app.get('/api/marca/:marcaId', (req, res) => {
-    let marcaId = req.params.marcaId
-    Marca.findById(marcaId, (err, marca) => {
-        if (err) { return res.status(500).send({ message: 'ERROR AL READ' }) }
-        if (!marca) { return res.status(404).send({ message: 'No existe' }) }
-        res.status(200).send({ marca })
-
-    })
-})
-
-app.get('/api/marca', (req, res) => {
-    Marca.find({}, (err, marca) => {
-        if (err) { return res.status(500).send({ message: 'ERROR AL READ' }) }
-        if (!marca) { return res.status(404).send({ message: 'No existe' }) }
-        res.status(200).send({ marca })
-    })
-
-})
-
-
-app.post('/api/insetEstilo', (req, res) => {
-    console.log('POST ESTILO')
-    console.log(req.body)
-    let estilo = new Estilo()
-    estilo.name = req.body.name
-    estilo.save((err, estiloStored) => {
-        if (err) {
-            console.log('No se pudo insertar Estilo')
-        }
-        else {
-            res.status(200).send({ estilo: estiloStored })
-        }
-    })
-
-})

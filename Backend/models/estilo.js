@@ -1,11 +1,15 @@
-'use strict'
-
 const mongoose=require('mongoose');
 const Schema = mongoose.Schema;
 
 //Estilo Schema
 let estiloSchema= Schema({
-    name:String
+    name:{
+    type:String,
+    required: true}
 });
 
-module.exports=mongoose.model('Estilo',estiloSchema);
+var Estilo = module.exports = mongoose.model('Estilo', estiloSchema);
+module.exports.get = function (callback, limit) {
+    Estilo.find(callback).limit(limit);
+}
+

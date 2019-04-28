@@ -5,7 +5,13 @@ const Schema = mongoose.Schema;
 
 //Estilo Schema
 let marcaSchema= Schema({
-    name:String
-});
+    name:{
+    type:  String,
+    required: true}
 
-module.exports=mongoose.model('Marca',marcaSchema);
+    
+});
+var Marca = module.exports = mongoose.model('Marca', marcaSchema);
+module.exports.get = function (callback, limit) {
+    Marca.find(callback).limit(limit);
+}
