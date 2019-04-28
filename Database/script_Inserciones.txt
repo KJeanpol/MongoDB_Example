@@ -8,3 +8,40 @@ db.personas.insertMany( myobj)
 
 
 db.personas.insert({name: 'Carlos', fname: 'Santan, sname:'Cruz', email:'futbol@gmail.com',phone_number:['77777','88888']})
+
+
+
+{
+    "placa": "BMQ787",
+    "capacidad":5,
+    "idmarca":"5cbcead14bf191925d884099",
+    "idestilo":"5cbce96a4bf191925d884093",
+    
+    "idmodelo": "5cc539bd5e3dcd3070fe1a17",
+    "color":"rojo" ,
+    "cilindrada":"1600" 
+    "combustible":"gasolina",
+    
+    "transmision":"manual",
+    "year": 2019,
+    "extras":["aros lujo","polarizado"],
+    "precio":"55 000"
+    "estado":true
+}
+
+
+{
+    "placa": "KTY898",
+    "capacidad":5,
+    "idmarca":"5cbceac64bf191925d884098",
+    "idestilo":"5cbce96a4bf191925d884093",
+    "idmodelo":"5cc539965e3dcd3070fe1a16",
+    "color":"Verde" ,
+    "cilindrada":"1600",
+    "combustible":"gasolina",
+    "transmision":"manual",
+    "year": 2019,
+    "extras":["aros lujo","polarizado"],
+    "precio":4000,
+    "estado":true
+}

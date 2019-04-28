@@ -40,6 +40,16 @@ router.route('/estilos/:estilo_id')
     .put(estilo.update)
     .delete(estilo.delete);
 
+// Import modelo controller
+var modelo = require('./controller/modelo');
+router.route('/modelos')
+    .get(modelo.index)
+    .post(modelo.new);
+router.route('/modelos/:modelo_id')
+    .get(modelo.view)
+    .put(modelo.update)
+    .delete(modelo.delete);
+
 
 // Import cliente controller
 var cliente = require('./controller/cliente');

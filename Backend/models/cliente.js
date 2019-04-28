@@ -25,7 +25,7 @@ var clienteSchema = mongoose.Schema({
         unique: true
     },
     telSecundario: {
-        type: Array[string],
+        type:[String],
         required: false
     }},
      { _id: false });
