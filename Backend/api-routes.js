@@ -41,4 +41,15 @@ router.route('/estilos/:estilo_id')
     .delete(estilo.delete);
 
 
+// Import cliente controller
+var cliente = require('./controller/cliente');
+// cliente routes
+router.route('/clientes')
+    .get(cliente.index)
+    .post(cliente.new);
+router.route('/cliente/:cliente_id')
+    .get(cliente.view)
+    .put(cliente.update)
+    .delete(cliente.delete);
+
 module.exports = router;
